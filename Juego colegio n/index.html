@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Aventura de Letras!</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial Rounded MT Bold', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #FF6B6B, #4ECDC4, #FFE66D);
+            background-size: 400% 400%;
+            animation: gradientBG 10s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            color: #333;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .game-container {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            border: 8px solid #FF9F43;
+        }
+
+        h1 {
+            color: #FF5252;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 0px #FFE082;
+            margin-bottom: 10px;
+        }
+
+        #mensaje-instruccion {
+            font-size: 1.4rem;
+            color: #2D3436;
+            margin-bottom: 20px;
+        }
+
+        .target-box {
+            background-color: #A29BFE;
+            color: white;
+            font-size: 5rem;
+            width: 130px;
+            height: 130px;
+            margin: 0 auto 25px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 25px;
+            box-shadow: 0 8px 0px #6C5CE7;
+            border: 4px solid white;
+            animation: bounce 1.5s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .opciones-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .btn-letra {
+            background-color: #00CEC9;
+            color: white;
+            font-size: 2.5rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 20px;
+            padding: 15px;
+            cursor: pointer;
+            box-shadow: 0 6px 0px #0984E3;
+            transition: transform 0.1s, background-color 0.2s;
+        }
+
+        .btn-letra:hover {
+            background-color: #00B894;
+        }
+
+        .btn-letra:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0px #0984E3;
+        }
+
+        #marcador {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #6C5CE7;
+        }
+
+        /* Pantalla de Victoria */
+        .pantalla-victoria {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .selector-genero {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn-genero {
+            background-color: #FF9F43;
+            color: white;
+            font-size: 1.3rem;
+            border: none;
+            border-radius: 15px;
+            padding: 12px 20px;
+            cursor: pointer;
+            box-shadow: 0 6px 0px #E17055;
+        }
+
+        .btn-genero:hover {
+            background-color: #F39C12;
+        }
+
+        .btn-reiniciar {
+            background-color: #FF7675;
+            color: white;
+            font-size: 1.5rem;
+            border: none;
+            border-radius: 20px;
+            padding: 12px 30px;
+            cursor: pointer;
+            box-shadow: 0 6px 0px #D63031;
+            margin-top: 20px;
+        }
+
+        .btn-reiniciar:hover {
+            background-color: #FD79A8;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="game-container">
+        <h1>🌟 ¡Aventura de Letras! 🌟</h1>
+
+        <div id="selector-genero">
+            <p id="mensaje-instruccion" style="margin-bottom: 5px;">¿Eres niño o niña?</p>
+            <div class="selector-genero">
+                <button class="btn-genero" onclick="seleccionarGenero('niño')">Niño</button>
+                <button class="btn-genero" onclick="seleccionarGenero('niña')">Niña</button>
+            </div>
+        </div>
+        
+        <div id="juego-activo" style="display: none;">
+            <p id="mensaje-instruccion">Encuentra y presiona la letra:</p>
+            <div class="target-box" id="letra-objetivo">A</div>
+            
+            <div class="opciones-grid" id="grid-opciones">
+                <!-- Los botones de opciones se generan con JavaScript -->
+            </div>
+
+            <div id="marcador">Puntuación: <span id="puntos">0</span> / 10</div>
+        </div>
+
+        <div class="pantalla-victoria" id="pantalla-victoria">
+            <h2 style="color: #00B894; font-size: 2.2rem; margin-bottom: 15px;">🎉 ¡Excelente Trabajo! 🎉</h2>
+            <p id="mensaje-victoria" style="font-size: 1.3rem; margin-bottom: 15px;">¡Has completado todas las letras como todo un campeón!</p>
+            <button class="btn-reiniciar" onclick="reiniciarJuego()">¡Jugar de Nuevo!</button>
+        </div>
+    </div>
+
+    <script>
+        // Abecedario completo
+        const abecedario = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "Ñ", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+        
+        let letrasDisponibles = [];
+        let letraActual = "";
+        let puntos = 0;
+        let genero = "";
+        const totalRondas = 10; // Cantidad de aciertos para ganar la partida
+
+        const coloresBotones = ["#FF7675", "#74B9FF", "#55EFC4", "#FFEAA7", "#FAB1A0", "#DFE6E9", "#A29BFE", "#FD79A8"];
+
+        function seleccionarGenero(seleccion) {
+            genero = seleccion;
+            document.getElementById("selector-genero").style.display = "none";
+            document.getElementById("juego-activo").style.display = "block";
+            iniciarJuego();
+        }
+
+        function iniciarJuego() {
+            // Copiamos el abecedario y lo mezclamos aleatoriamente
+            letrasDisponibles = [...abecedario].sort(() => Math.random() - 0.5);
+            puntos = 0;
+            document.getElementById("puntos").textContent = puntos;
+            document.getElementById("juego-activo").style.display = "block";
+            document.getElementById("pantalla-victoria").style.display = "none";
+            siguienteRonda();
+        }
+
+        function siguienteRonda() {
+            if (puntos >= totalRondas || letrasDisponibles.length === 0) {
+                mostrarVictoria();
+                return;
+            }
+
+            // Seleccionamos la letra objetivo
+            letraActual = letrasDisponibles.pop();
+            document.getElementById("letra-objetivo").textContent = letraActual;
+
+            // Generamos opciones: la correcta + 5 distractores aleatorios
+            let distractores = abecedario.filter(l => l !== letraActual)
+                                         .sort(() => Math.random() - 0.5)
+                                         .slice(0, 5);
+            
+            let opciones = [...distractores, letraActual].sort(() => Math.random() - 0.5);
+
+            // Renderizamos los botones en el HTML
+            const grid = document.getElementById("grid-opciones");
+            grid.innerHTML = "";
+
+            opciones.forEach((letra, index) => {
+                const btn = document.createElement("button");
+                btn.textContent = letra;
+                btn.className = "btn-letra";
+                // Asignar colores vivos aleatorios a los botones
+                btn.style.backgroundColor = coloresBotones[index % coloresBotones.length];
+                btn.onclick = () => verificarSeleccion(letra);
+                grid.appendChild(btn);
+            });
+        }
+
+        function verificarSeleccion(letraSeleccionada) {
+            if (letraSeleccionada === letraActual) {
+                puntos++;
+                document.getElementById("puntos").textContent = puntos;
+                siguienteRonda();
+            } else {
+                // Efecto visual rápido de error (opcional)
+                navigator.vibrate?.(100); // Vibra si el dispositivo lo soporta
+            }
+        }
+
+        function mostrarVictoria() {
+            const mensajeVictoria = document.getElementById("mensaje-victoria");
+            if (genero === "niña") {
+                mensajeVictoria.textContent = "¡Has completado todas las letras como toda una campeona!";
+            } else {
+                mensajeVictoria.textContent = "¡Has completado todas las letras como todo un campeón!";
+            }
+
+            document.getElementById("juego-activo").style.display = "none";
+            document.getElementById("pantalla-victoria").style.display = "flex";
+        }
+
+        function reiniciarJuego() {
+            document.getElementById("pantalla-victoria").style.display = "none";
+            document.getElementById("selector-genero").style.display = "block";
+            document.getElementById("juego-activo").style.display = "none";
+            genero = "";
+            puntos = 0;
+            document.getElementById("puntos").textContent = puntos;
+        }
+    </script>
+</body>
+</html>
