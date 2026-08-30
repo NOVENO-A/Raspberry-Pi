@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raspberry Pi 5 & Python | El Futuro del Código</title>
+    <link rel="icon" type="image/png" href="img/images.png">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #c51a4a; /* Color frambuesa de Raspberry Pi */
+            --primary-dark: #921033;
+            --python-blue: #306998;
+            --python-yellow: #ffd43b;
+            --dark-bg: #121824;
+            --card-bg: #1e2638;
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, rgba(197, 26, 74, 0.9), rgba(18, 24, 36, 0.9)), url('https://images.unsplash.com/photo-1629654297299-c8506221ca97?auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+            padding: 80px 20px;
+            text-align: center;
+            border-bottom: 4px solid var(--primary);
+        }
+
+        header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        section {
+            margin-bottom: 60px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 25px;
+            color: var(--primary);
+            border-left: 5px solid var(--primary);
+            padding-left: 15px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(197, 26, 74, 0.2);
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card p, .card ul {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .card ul {
+            list-style-type: none;
+            margin-top: 10px;
+        }
+
+        .card ul li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .card ul li::before {
+            content: "•";
+            color: var(--primary);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .python-highlight {
+            background: linear-gradient(145deg, #162032, #111726);
+            border: 2px solid var(--python-blue);
+        }
+
+        .python-highlight h2 {
+            color: var(--python-yellow);
+            border-left-color: var(--python-yellow);
+        }
+
+        .code-box {
+            background-color: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            color: #c9d1d9;
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+
+        .keyword { color: #ff7b72; }
+        .string { color: #a5d6ff; }
+        .func { color: #d2a8ff; }
+
+        nav {
+            background-color: var(--primary);
+            padding: 15px 0;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: var(--python-yellow);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            background-color: #0b0f17;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 2.2rem; }
+            .container { padding: 20px 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Raspberry Pi 5 & Python</h1>
+        <p>El poder del hardware compacto unido al lenguaje de programación más versátil del mundo.</p>
+    </header>
+
+    <div class="container">
+
+        <!-- Sección Raspberry Pi 5 -->
+        <section>
+            <h2>Raspberry Pi 5</h2>
+            <div class="grid-2">
+                <div class="card">
+                    <h3>🍓 ¿Qué es?</h3>
+                    <p>Es un ordenador de placa única (SBC) de alto rendimiento desarrollado por la Fundación Raspberry Pi. Del tamaño de una tarjeta de crédito, ofrece rendimiento de nivel de PC de escritorio manteniendo un bajo costo y un consumo de energía mínimo.</p>
+                </div>
+                <div class="card">
+                    <h3>🚀 ¿Qué permite hacer?</h3>
+                    <ul>
+                        <li>Crear consolas de videojuegos retro (emuladores).</li>
+                        <li>Desarrollar proyectos de robótica, IoT y automatización.</li>
+                        <li>Montar servidores web, NAS locales y centros multimedia 4K.</li>
+                        <li>Aprender programación y electrónica desde cero.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 25px;">
+                <h3>⚙️ Características Principales</h3>
+                <div class="grid-2" style="margin-top: 15px;">
+                    <div>
+                        <p><strong>• Procesador:</strong> Broadcom BCM2712 de cuatro núcleos, arquitectura Arm Cortex-A76 de 64 bits a 2.4 GHz.</p>
+                        <p><strong>• Memoria RAM:</strong> Configuraciones de LPDDR4X-4267 SDRAM en opciones de 2 GB, 4 GB, 8 GB y 16 GB</p>
+                        <p><strong>• Gráficos:</strong> VideoCore VII, con compatibilidad para OpenGL ES 3.1 y Vulkan 1.2.</p>
+                    </div>
+                    <div>
+                        <p><strong>• Puertos y Video:</strong> 2 puertos micro-HDMI (soporta pantallas duales hasta 4K a 60Hz y HDR), 2x USB 3.0 y 2x USB 2.0.</p>
+                        <p><strong>• Conectividad:</strong>Wi-Fi 802.11ac de doble banda, Bluetooth 5.0 / BLE y puerto Gigabit Ethernet con soporte PoE+ opcional.</p>
+                        <p><strong>• Interfaz:</strong> Interfaz PCIe 2.0 x1 para conectar periféricos rápidos como unidades SSD.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección Python -->
+        <section class="python-highlight card">
+            <h2>🐍 Python: El Lenguaje del Futuro</h2>
+            <div class="grid-2" style="margin-top: 20px;">
+                <div>
+                    <h3>💻 ¿Qué es el lenguaje Python?</h3>
+                    <p>Python es un lenguaje de programación de alto nivel, interpretado y de propósito general. Su diseño se enfoca en la legibilidad del código, lo que permite expresar ideas complejas con menor cantidad de código que en otros lenguajes.</p>
+                </div>
+                <div>
+                    <h3>👥 ¿Para quién está pensado?</h3>
+                    <p>Está pensado para cualquier persona que busque resolver problemas mediante código. Es la herramienta clave en áreas como Inteligencia Artificial, Ciencia de Datos, Ciberseguridad y Desarrollo Web.</p>
+                </div>
+            </div>
+
+            <div style="margin-top: 30px;">
+                <h3>🌐 ¿Dónde se puede usar Python?</h3>
+                <p>Desde principiantes hasta ingenieros expertos en diversas áreas:</p>
+                <ul style="margin-top: 10px;">
+                    <li><strong>Raspberry Pi y Hardware:</strong> El estándar para controlar el puerto GPIO, leer sensores y manejar motores.</li>
+                    <li><strong>Desarrollo Web:</strong> Creación de backend con frameworks como Django y Flask.</li>
+                    <li><strong>Inteligencia Artificial y Datos:</strong> Procesamiento de datos y modelos con bibliotecas como Pandas, NumPy y TensorFlow.</li>
+                    <li><strong>Automatización y Scripting:</strong> Simplificación y automatización de tareas repetitivas en cualquier sistema operativo.</li>
+                </ul>
+            </div>
+
+            <div class="code-box">
+<span class="keyword">import</span> RPi.GPIO <span class="keyword">as</span> GPIO
+
+<span class="keyword">def</span> <span class="func">saludar_consola</span>():
+    mensaje = <span class="string">"¡Hola desde Raspberry Pi 5 y Python!"</span>
+    <span class="func">print</span>(mensaje)
+
+saludar_consola()
+            </div>
+        </section>
+
+    </div>
+
+    <nav>
+        <ul>
+            <li>
+                <a href="opinion/otra.html">¡Déjanos saber tu opinión!</a>
+            </li>        
+        </ul>
+    </nav>
+
+    <footer>
+        <p>Página creada por estudiantes de la promoción 9° "A" 2026 • Inspirada en la innovación con Raspberry Pi</p>
+    </footer>
+
+</body>
+</html>
