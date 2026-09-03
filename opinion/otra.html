@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opinión - Raspberry Pi & Python</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #c51a4a;
+            --primary-dark: #921033;
+            --python-blue: #306998;
+            --python-yellow: #ffd43b;
+            --dark-bg: #121824;
+            --card-bg: #1e2638;
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .opinion-card {
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.05);
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+
+        h2 {
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 25px;
+        }   
+
+        img {
+            display: block;
+            margin: 20px auto;
+            width: 100%;
+            max-width: 250px;
+            height: auto;
+            border-radius: 8px;
+            background: #fff;
+            padding: 10px;
+        }
+
+        .btn-back {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 10px 20px;
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+        }
+
+        .btn-back:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(197, 26, 74, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="opinion-card">
+        <h1>¡Si nos dejas tu opinión sería de gran ayuda para este proyecto!</h1>
+        <h2>Formulario de opinión</h2>
+        <img src="Qr.png" alt="Código QR para acceder al formulario de opinión">
+        
+        <div>
+            <a href="../pagina/raspberry-pi.html" class="btn-back">← Volver al inicio</a>
+        </div>
+    </div>
+
+</body>
+</html>

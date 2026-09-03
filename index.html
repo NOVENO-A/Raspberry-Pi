@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Raspberry Pi & Python</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #c51a4a;
+            --primary-dark: #921033;
+            --dark-bg: #121824;
+            --card-bg: #1e2638;
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-card {
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .login-card h2 {
+            text-align: center;
+            margin-bottom: 24px;
+            color: var(--primary);
+            font-size: 1.8rem;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            background-color: #121824;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            font-size: 16px;
+            color: var(--text-light);
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: var(--primary);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(197, 26, 74, 0.4);
+        }
+
+        .mensaje {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .error {
+            color: #ff7b72;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <h2>Iniciar Sesión</h2>
+        <form id="loginForm">
+            <div class="input-group">
+                <label for="usuario">Usuario</label>
+                <input type="text" id="usuario" required placeholder="Ingresa tu usuario">
+            </div>
+            
+            <div class="input-group">
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" required placeholder="Ingresa tu contraseña">
+            </div>
+
+            <button type="submit" class="btn-submit">Entrar</button>
+            <div id="mensaje" class="mensaje"></div>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('loginForm');
+        const mensaje = document.getElementById('mensaje');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const userVal = document.getElementById('usuario').value;
+            const passVal = document.getElementById('password').value;
+
+            if (userVal === 'Proyecto' && passVal === 'Robotica') {
+                // Entra correctamente a la carpeta 'pagina'
+                window.location.href = "pagina/raspberry-pi.html";
+            } else {
+                mensaje.textContent = 'Usuario o contraseña incorrectos.';
+                mensaje.className = 'mensaje error';
+            }
+        });
+    </script>
+
+</body>
+</html>
