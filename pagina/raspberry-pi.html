@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raspberry Pi 4 model B & Python | El Futuro del Código</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #c51a4a;
+            --primary-dark: #921033;
+            --python-blue: #306998;
+            --python-yellow: #ffd43b;
+            --dark-bg: #121824;
+            --card-bg: #1e2638;
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, rgba(197, 26, 74, 0.9), rgba(18, 24, 36, 0.9)), url('https://images.unsplash.com/photo-1629654297299-c8506221ca97?auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+            padding: 80px 20px;
+            text-align: center;
+            border-bottom: 4px solid var(--primary);
+        }
+
+        header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        section {
+            margin-bottom: 60px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 25px;
+            color: var(--primary);
+            border-left: 5px solid var(--primary);
+            padding-left: 15px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(197, 26, 74, 0.2);
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card p, .card ul {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .card ul {
+            list-style-type: none;
+            margin-top: 10px;
+        }
+
+        .card ul li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .card ul li::before {
+            content: "•";
+            color: var(--primary);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .python-highlight {
+            background: linear-gradient(145deg, #162032, #111726);
+            border: 2px solid var(--python-blue);
+        }
+
+        .python-highlight h2 {
+            color: var(--python-yellow);
+            border-left-color: var(--python-yellow);
+        }
+
+        .code-box {
+            background-color: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: #c9d1d9;
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+
+        .keyword { color: #ff7b72; }
+        .string { color: #a5d6ff; }
+        .func { color: #d2a8ff; }
+        .comment { color: #8b949e; font-style: italic; }
+
+        nav {
+            background-color: var(--primary);
+            padding: 15px 0;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: var(--python-yellow);
+        }
+
+        .btn-logout {
+            background-color: var(--primary-dark);
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease !important;
+        }
+
+        .btn-logout:hover {
+            background-color: #720c27;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            color: #fff !important;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            background-color: #0b0f17;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 2.2rem; }
+            .container { padding: 20px 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Raspberry Pi 4 Model B & Python</h1>
+        <p>El poder del hardware compacto unido al lenguaje de programación más versátil del mundo.</p>
+    </header>
+
+    <div class="container">
+        
+        <section>
+            <h2>Raspberry Pi 4 Model B</h2>
+            <div class="grid-2">
+                <div class="card">
+                    <h3>🍓 ¿Qué es?</h3>
+                    <p>Es un ordenador de placa única (SBC) de alto rendimiento desarrollado por la Fundación Raspberry Pi. Del tamaño de una tarjeta de crédito, ofrece rendimiento de nivel de PC de escritorio manteniendo un bajo costo y un consumo de energía mínimo.</p>
+                </div>
+                <div class="card">
+                    <h3>🚀 ¿Qué permite hacer?</h3>
+                    <ul>
+                        <li>Crear consolas de videojuegos retro (emuladores).</li>
+                        <li>Desarrollar proyectos de robótica, IoT y automatización.</li>
+                        <li>Montar servidores web, NAS locales y centros multimedia 4K.</li>
+                        <li>Aprender programación y electrónica desde cero.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 25px;">
+                <h3>⚙️ Especificaciones Técnicas Detalladas</h3>
+                <div class="grid-2" style="margin-top: 15px;">
+                    <div>
+                        <p><strong>• Procesador:</strong> Broadcom BCM2711, Quad-core Cortex-A72 (ARM v8) de 64 bits a 1.5 GHz.</p>
+                        <p><strong>• Memoria RAM:</strong> Opciones de 1GB, 2GB, 4GB o 8GB LPDDR4-3200 SDRAM.</p>
+                        <p><strong>• Gráficos:</strong> Broadcom VideoCore VI, compatible con OpenGL ES 3.0 y decodificación de video 4K.</p>
+                    </div>
+                    <div>
+                        <p><strong>• Conectividad y Red:</strong> Gigabit Ethernet real, Wi-Fi 802.11ac de doble banda (2.4/5.0 GHz) y Bluetooth 5.0.</p>
+                        <p><strong>• Puertos Multimedia:</strong> 2 puertos USB 3.0, 2 puertos USB 2.0 y 2 salidas micro-HDMI (soporta doble pantalla 4K).</p>
+                        <p><strong>• Expansión:</strong> Cabezal GPIO estándar de 40 pines compatible con proyectos de hardware y electrónica.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="python-highlight card">
+            <h2>🐍 Python: El Lenguaje del Futuro y del Hardware</h2>
+            <div class="grid-2" style="margin-top: 20px;">
+                <div>
+                    <h3>💻 ¿Por qué Python en Raspberry Pi?</h3>
+                    <p>Python es el lenguaje oficial de la Fundación Raspberry Pi por su sintaxis limpia y directa. Permite a los desarrolladores conectar la lógica del software con el mundo físico de forma inmediata utilizando bibliotecas optimizadas para hardware.</p>
+                </div>
+                <div>
+                    <h3>🛠️ Librerías Clave para el Proyecto</h3>
+                    <p>Para exprimir al máximo las capacidades de la placa, Python cuenta con ecosistemas muy potentes:</p>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>RPi.GPIO / gpiozero:</strong> Control absoluto de los pines físicos para conectar sensores, LEDs y motores.</li>
+                        <li><strong>Flask / FastAPI:</strong> Creación de servidores web ligeros alojados directamente en la placa.</li>
+                        <li><strong>OpenCV:</strong> Procesamiento de imágenes en tiempo real y visión artificial con cámaras USB o de la Pi.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="margin-top: 30px;">
+                <h3>💡 Ejemplo Práctico: Control de Pines GPIO</h3>
+                <p>Este fragmento muestra la estructura básica en Python para configurar un pin y encender un componente conectado a la placa:</p>
+            </div>
+
+            <div class="code-box">
+<span class="keyword">import</span> RPi.GPIO <span class="keyword">as</span> GPIO
+<span class="keyword">import</span> time
+
+<span class="comment"># Configuración inicial del modo de pines</span>
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(18, GPIO.OUT) <span class="comment"># Pin 18 configurado como salida</span>
+
+<span class="keyword">def</span> <span class="func">activar_componente</span>():
+    <span class="func">print</span>(<span class="string">"Enviando señal eléctrica al pin 18..."</span>)
+    GPIO.output(18, GPIO.HIGH)
+    time.sleep(<span class="string">2</span>)
+    GPIO.output(18, GPIO.LOW)
+    <span class="func">print</span>(<span class="string">"Proceso finalizado con éxito."</span>)
+
+<span class="keyword">try</span>:
+    activar_componente()
+<span class="keyword">finally</span>:
+    GPIO.cleanup() <span class="comment"># Limpiar los pines al terminar</span>
+            </div>
+        </section>
+
+    </div>
+
+    <nav>
+        <ul>
+            <li>
+                <a href="../opinion/otra.html">¡Déjanos saber tu opinión!</a>
+            </li>
+            <li>
+                <a href="../index.html" class="btn-logout">Cerrar sesión (Login)</a>
+            </li>
+        </ul>
+    </nav>
+
+    <footer>
+        <p>Página creada por estudiantes de la promoción 9° "A" 2026 • Inspirada en la innovación con Raspberry Pi</p>
+    </footer>
+
+</body>
+</html>
